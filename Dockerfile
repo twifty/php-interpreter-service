@@ -5,5 +5,6 @@ EXPOSE 1337/tcp
 ENV PHP_INTERPRETER_HOST localhost
 ENV PHP_INTERPRETER_PORT 1337
 
-RUN [“chmod”, “+x”, "/php-interpreter.phar”]
-CMD ["/php-interpreter.phar"]
+RUN ["php", "-v"]
+# RUN ["chmod", "+x", "/php-interpreter.phar"]
+# CMD ["/php-interpreter.phar"]
