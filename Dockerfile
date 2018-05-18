@@ -8,4 +8,4 @@ ENV PHP_INTERPRETER_PORT 1337
 # RUN ["php", "-v"]
 # RUN ["chmod", "+x", "/php-interpreter.phar"]
 # CMD ["/php-interpreter.phar"]
-ENTRYPOINT /php-interpreter.phar
+# ENTRYPOINT /php-interpreter.phar
