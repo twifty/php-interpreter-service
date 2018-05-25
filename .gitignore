@@ -1,1 +1,3 @@
 .travis/phar-private.pem
+dist/
+vendor/
