@@ -34,7 +34,7 @@ class InterpreterTest extends TestCase
     protected function setUp ()
     {
         $this->socket = $this->createMock(ServerSocket::class);
-        $this->interpreter = new Interpreter($this->socket, true, 1);
+        $this->interpreter = new Interpreter($this->socket, (new PhpExecutableFinder())->find(), true, 1);
     }
 
     /**
@@ -170,6 +170,7 @@ class InterpreterTest extends TestCase
                 static::wrap(CommandsInterface::CMD_SET_CWD, realpath(__DIR__ . '/..')).
                 static::wrap(CommandsInterface::CMD_PROCESS_EXECUTE, "php -r \"echo getcwd();\""),
                 [
+                    static::match(CommandsInterface::CMD_SET_CWD, '[\w\/_-]+'),
                     static::match(CommandsInterface::CMD_PROCESS_EXECUTE, '\d+'),
                     static::match(CommandsInterface::CMD_PROCESS_STDOUT, realpath(__DIR__ . '/..'), true),
                     static::match(CommandsInterface::CMD_PROCESS_EXITCODE, "0"),
@@ -179,6 +180,7 @@ class InterpreterTest extends TestCase
                 static::wrap(CommandsInterface::CMD_SET_ENV, 'TEMP_ENV_VAR = "Hello World!"').
                 static::wrap(CommandsInterface::CMD_PROCESS_EXECUTE, "php -r \"echo getenv('TEMP_ENV_VAR');\""),
                 [
+                    static::match(CommandsInterface::CMD_SET_ENV, json_encode(['TEMP_ENV_VAR' => "Hello World!"])),
                     static::match(CommandsInterface::CMD_PROCESS_EXECUTE, '\d+'),
                     static::match(CommandsInterface::CMD_PROCESS_STDOUT, "Hello World!"),
                     static::match(CommandsInterface::CMD_PROCESS_EXITCODE, "0"),
@@ -188,6 +190,7 @@ class InterpreterTest extends TestCase
                 static::wrap(CommandsInterface::CMD_SET_ENV, 'TEMP_ENV_VAR = \'Peter\\\'s World!\'').
                 static::wrap(CommandsInterface::CMD_PROCESS_EXECUTE, "php -r \"echo getenv('TEMP_ENV_VAR');\""),
                 [
+                    static::match(CommandsInterface::CMD_SET_ENV, json_encode(['TEMP_ENV_VAR' => "Peter's World!"])),
                     static::match(CommandsInterface::CMD_PROCESS_EXECUTE, '\d+'),
                     static::match(CommandsInterface::CMD_PROCESS_STDOUT, "Peter's World!"),
                     static::match(CommandsInterface::CMD_PROCESS_EXITCODE, "0"),
@@ -197,6 +200,7 @@ class InterpreterTest extends TestCase
                 static::wrap(CommandsInterface::CMD_SET_ENV, json_encode(['TEMP_ENV_VAR' => "Hello World!"])).
                 static::wrap(CommandsInterface::CMD_PROCESS_EXECUTE, "php -r \"echo getenv('TEMP_ENV_VAR');\""),
                 [
+                    static::match(CommandsInterface::CMD_SET_ENV, json_encode(['TEMP_ENV_VAR' => "Hello World!"])),
                     static::match(CommandsInterface::CMD_PROCESS_EXECUTE, '\d+'),
                     static::match(CommandsInterface::CMD_PROCESS_STDOUT, "Hello World!"),
                     static::match(CommandsInterface::CMD_PROCESS_EXITCODE, "0"),
@@ -208,8 +212,10 @@ class InterpreterTest extends TestCase
                 static::wrap(CommandsInterface::CMD_SET_ENV, 'TEMP_ENV_VAR=null').
                 static::wrap(CommandsInterface::CMD_GET_ENV),
                 [
+                    static::match(CommandsInterface::CMD_SET_ENV, json_encode(['TEMP_ENV_VAR' => "Hello World!"]), true),
                     static::match(CommandsInterface::CMD_PROCESS_STDOUT, json_encode(['TEMP_ENV_VAR' => "Hello World!"]), true),
-                    static::match(CommandsInterface::CMD_PROCESS_STDOUT, json_encode([]), true),
+                    static::match(CommandsInterface::CMD_SET_ENV, '{}', true),
+                    static::match(CommandsInterface::CMD_PROCESS_STDOUT, '{}', true),
                 ]
             ],
             'CMD_ABORT_OUTPUT' => [
