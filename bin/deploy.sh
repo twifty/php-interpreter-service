@@ -11,16 +11,18 @@ ssh-add .travis/build-key.pem
 git config --global user.email "waldermort@gmail.com"
 git config --global user.name "Travis CI"
 
-# Add SSH-based remote to GitHub repo:
-git remote add deploy git@github.com:twifty/php-interpreter-service.git
-git clone deploy
-
 # Get box and build PHAR
 wget https://box-project.github.io/box2/manifest.json
 BOX_URL=$(php bin/get-box.php manifest.json)
 rm manifest.json
 wget -O box.phar ${BOX_URL}
 chmod 755 box.phar
+
+ls -al
+# Add SSH-based remote to GitHub repo:
+git remote add deploy git@github.com:twifty/php-interpreter-service.git
+git clone deploy
+ls -al
 
 # Build the phar, will output into /dist directory
 mkdir dist
