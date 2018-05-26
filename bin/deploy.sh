@@ -13,7 +13,7 @@ git config --global user.name "Travis CI"
 
 # Add SSH-based remote to GitHub repo:
 git remote add deploy git@github.com:twifty/php-interpreter-service.git
-git fetch deploy
+git clone deploy
 
 # Get box and build PHAR
 wget https://box-project.github.io/box2/manifest.json
@@ -31,7 +31,7 @@ mkdir dist
 mv dist/php-interpreter.phar dist/php-interpreter.phar.tmp
 
 # Checkout gh-pages and add PHAR file and version:
-git checkout -b gh-pages deploy/gh-pages
+git checkout gh-pages
 mv dist/php-interpreter.tmp dist/php-interpreter.phar
 sha1sum dist/php-interpreter.phar > dist/php-interpreter.phar.version
 git add dist/php-interpreter.phar dist/php-interpreter.phar.version
