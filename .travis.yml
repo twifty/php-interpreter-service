@@ -2,7 +2,7 @@ sudo: false
 language: php
 
 script:
-  - ./vendor/bin/phpunit # If you have tests
+  #- ./vendor/bin/phpunit # If you have tests
   - bash ./bin/deploy.sh
 
 env:
