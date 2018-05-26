@@ -28,14 +28,15 @@ mkdir dist
 
 # Without the following step, we cannot checkout the gh-pages branch due to
 # file conflicts:
-mv component-installer.phar component-installer.phar.tmp
+mv dist/php-interpreter.phar dist/php-interpreter.phar.tmp
 
 # Checkout gh-pages and add PHAR file and version:
-git checkout -b gh-pages deploy/gh-pages
-mv component-installer.phar.tmp component-installer.phar
-sha1sum component-installer.phar > component-installer.phar.version
-git add component-installer.phar component-installer.phar.version
+git checkout gh-pages
+mv dist/php-interpreter.tmp dist/php-interpreter.phar
+sha1sum dist/php-interpreter.phar > dist/php-interpreter.phar.version
+git add dist/php-interpreter.phar dist/php-interpreter.phar.version
+version=`cat dist/php-interpreter.phar.version`
 
 # Commit and push:
-git commit -m 'Rebuilt phar'
+git commit -m 'Rebuilt phar $version'
 git push deploy gh-pages:gh-pages
