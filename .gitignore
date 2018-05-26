@@ -1,3 +1,5 @@
 .travis/phar-private.pem
+.travis/build-key.pem
 dist/
 vendor/
+.travis/secrets.tar
