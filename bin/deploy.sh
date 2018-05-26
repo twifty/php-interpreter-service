@@ -1,4 +1,7 @@
 #!/bin/bash
+
+# Taken from https://mwop.net/blog/2015-12-14-secure-phar-automation.html
+
 # Unpack secrets; -C ensures they unpack *in* the .travis directory
 tar xvf .travis/secrets.tar -C .travis
 
