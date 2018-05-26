@@ -32,6 +32,7 @@ mv dist/php-interpreter.phar dist/php-interpreter.phar.tmp
 
 # Checkout gh-pages and add PHAR file and version:
 git checkout gh-pages
+ls -al dist
 mv dist/php-interpreter.tmp dist/php-interpreter.phar
 sha1sum dist/php-interpreter.phar > dist/php-interpreter.phar.version
 git add dist/php-interpreter.phar dist/php-interpreter.phar.version
