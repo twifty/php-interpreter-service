@@ -8,8 +8,8 @@ chmod 600 .travis/build-key.pem
 ssh-add .travis/build-key.pem
 
 # Setup git defaults:
-git config --global user.email "$COMMIT_AUTHOR_EMAIL"
-git config --global user.name "$COMMIT_AUTHOR_USERNAME"
+git config --global user.email "waldermort@gmail.com"
+git config --global user.name "Travis CI"
 
 # Add SSH-based remote to GitHub repo:
 git remote add deploy git@github.com:twifty/php-interpreter-service.git
@@ -36,6 +36,8 @@ mv dist/php-interpreter.tmp dist/php-interpreter.phar
 sha1sum dist/php-interpreter.phar > dist/php-interpreter.phar.version
 git add dist/php-interpreter.phar dist/php-interpreter.phar.version
 version=`cat dist/php-interpreter.phar.version`
+
+rm box.phar composer.lock
 
 # Commit and push:
 git commit -m 'Rebuilt phar $version'
