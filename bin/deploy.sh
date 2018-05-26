@@ -23,6 +23,7 @@ wget -O box.phar ${BOX_URL}
 chmod 755 box.phar
 
 # Build the phar, will output into /dist directory
+mkdir dist
 ./box.phar build -vv
 
 # Without the following step, we cannot checkout the gh-pages branch due to

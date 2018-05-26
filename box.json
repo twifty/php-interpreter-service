@@ -7,7 +7,7 @@
   ],
   "files": [
     "LICENSE.md",
-    "server.php"
+    "src/main.php"
   ],
   "finder": [
     {
