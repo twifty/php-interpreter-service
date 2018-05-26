@@ -18,11 +18,9 @@ rm manifest.json
 wget -O box.phar ${BOX_URL}
 chmod 755 box.phar
 
-ls -al
 # Add SSH-based remote to GitHub repo:
 git remote add deploy git@github.com:twifty/php-interpreter-service.git
 git fetch deploy
-ls -al
 
 # Build the phar, will output into /dist directory
 mkdir dist
