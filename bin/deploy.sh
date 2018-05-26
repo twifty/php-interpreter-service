@@ -36,10 +36,10 @@ ls -al dist
 mv dist/php-interpreter.tmp dist/php-interpreter.phar
 sha1sum dist/php-interpreter.phar > dist/php-interpreter.phar.version
 git add dist/php-interpreter.phar dist/php-interpreter.phar.version
-version=`cat dist/php-interpreter.phar.version`
+version=`cat dist/php-interpreter.phar.version | cut -c1-8`
 
-rm box.phar composer.lock
+rm box.phar
 
 # Commit and push:
-git commit -m 'Rebuilt phar $version'
+git commit -m "Rebuilt phar ${version}"
 git push deploy gh-pages:gh-pages
