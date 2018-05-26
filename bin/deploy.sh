@@ -24,14 +24,14 @@ chmod 755 box.phar
 
 # Build the phar, will output into /dist directory
 mkdir dist
-./box.phar build -vv
+./box.phar build
 
 # Without the following step, we cannot checkout the gh-pages branch due to
 # file conflicts:
 mv dist/php-interpreter.phar dist/php-interpreter.phar.tmp
 
 # Checkout gh-pages and add PHAR file and version:
-git checkout gh-pages
+git checkout -b gh-pages deploy/gh-pages
 mv dist/php-interpreter.tmp dist/php-interpreter.phar
 sha1sum dist/php-interpreter.phar > dist/php-interpreter.phar.version
 git add dist/php-interpreter.phar dist/php-interpreter.phar.version
