@@ -1,13 +1,11 @@
 sudo: false
 language: php
 
-script:
-  #- ./vendor/bin/phpunit # If you have tests
-  - bash ./bin/deploy.sh
+# script:
+  # - bash ./bin/deploy.sh
 
 env:
   global:
-    # - ENCRYPTION_LABEL: "<.... encryption label from previous step ....>"
     - COMMIT_AUTHOR_EMAIL: waldermort@gmail.com
     - COMMIT_AUTHOR_USERNAME: Travis CI
 
@@ -15,6 +13,10 @@ before_install:
   - phpenv config-rm xdebug.ini
   - composer self-update
   - openssl aes-256-cbc -K $encrypted_200beba27379_key -iv $encrypted_200beba27379_iv -in .travis/secrets.tar.enc -out .travis/secrets.tar -d
+
+after_success:
+  - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then composer install --no-dev ; fi
+  - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then ./bin/deploy.sh ; fi
 
 cache:
   directories:
@@ -24,25 +26,11 @@ cache:
 matrix:
   fast_finish: true
   include:
-  # - php: 5.5
-  # - php: 5.6
-    # env:
-    # - EXECUTE_DEPLOYMENT=true
-  - php: 7.1.3
-  # - php: hhvm
-  # allow_failures:
-  # - php: hhvm
-
-# before_install:
-# - phpenv config-rm xdebug.ini
-# - composer self-update
+    - php: 7.1.3
 
 install:
   - travis_retry composer install --no-interaction
   - composer info -i
-
-# script:
-#   - ./vendor/bin/phpunit # If you have tests
 
 notifications:
   email: true
