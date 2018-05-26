@@ -37,9 +37,15 @@ mv dist/php-interpreter.phar dist/php-interpreter.phar.tmp
 git checkout gh-pages
 ls -al dist
 mv dist/php-interpreter.tmp dist/php-interpreter.phar
-sha1sum dist/php-interpreter.phar > dist/php-interpreter.phar.version
+# sha1sum dist/php-interpreter.phar > dist/php-interpreter.phar.version
 git add dist/php-interpreter.phar dist/php-interpreter.phar.version
-version=`cat dist/php-interpreter.phar.version | cut -c1-8`
+# version=`cat dist/php-interpreter.phar.version | cut -c1-8`
+
+version=`cat dist/php-interpreter.phar.version`
+a=( ${version//./ } )
+((a[3]++))
+version="${a[0]}.${a[1]}.${a[2]}.${a[3]}"
+echo $version > dist/php-interpreter.phar.version
 
 rm box.phar
 
