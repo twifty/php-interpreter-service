@@ -29,6 +29,8 @@ chmod 755 box.phar
 git remote add deploy git@github.com:twifty/php-interpreter-service.git
 git fetch deploy
 
+oldHash=`md5sum dist/php-interpreter.phar`
+
 # Build the phar, will output into /dist directory
 mkdir dist
 ./box.phar build
@@ -40,13 +42,14 @@ mv dist/php-interpreter.phar dist/php-interpreter.phar.tmp
 # Checkout gh-pages and add PHAR file and version:
 git checkout gh-pages
 mv dist/php-interpreter.phar.tmp dist/php-interpreter.phar
+newHash='md5sum dist/php-interpreter.phar'
 
-if git diff --quiet; then
+if [ "x$oldHash" != "x$newHash"]; then
     echo "No changes to the output on this push; exiting."
     exit 0
 fi
 
-md5sum dist/php-interpreter.phar > dist/php-interpreter.phar.md5
+echo "$newhash" > dist/php-interpreter.phar.md5
 git add dist/php-interpreter.phar dist/php-interpreter.phar.version dist/php-interpreter.phar.md5
 
 version=`cat dist/php-interpreter.phar.version`
