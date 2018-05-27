@@ -53,5 +53,5 @@ echo "$version" > dist/php-interpreter.phar.version
 rm box.phar
 
 # Commit and push:
-git commit -m "Rebuilt phar ${version}"
+git commit -am "Rebuilt phar ${version}"
 git push deploy gh-pages:gh-pages
