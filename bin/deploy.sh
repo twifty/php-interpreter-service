@@ -46,9 +46,9 @@ git add dist/php-interpreter.phar dist/php-interpreter.phar.version
 
 version=`cat dist/php-interpreter.phar.version`
 a=( ${version//./ } )
-((a[3]++))
-version="${a[0]}.${a[1]}.${a[2]}.${a[3]}"
-echo $version > dist/php-interpreter.phar.version
+((a[2]++))
+version="${a[0]}.${a[1]}.${a[2]}"
+echo "$version" > dist/php-interpreter.phar.version
 
 rm box.phar
 
