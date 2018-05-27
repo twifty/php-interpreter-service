@@ -1,6 +1,10 @@
 #!/bin/bash
 
 # Taken from https://mwop.net/blog/2015-12-14-secure-phar-automation.html
+# if [ "$TRAVIS_PULL_REQUEST" != "false" -o "$TRAVIS_BRANCH" != "master" ]; then
+#     echo "Skipping deploy"
+#     exit 0
+# fi
 
 # Unpack secrets; -C ensures they unpack *in* the .travis directory
 tar xvf .travis/secrets.tar -C .travis

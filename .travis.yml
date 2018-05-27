@@ -4,10 +4,10 @@ language: php
 # script:
   # - bash ./bin/deploy.sh
 
-env:
-  global:
-    - COMMIT_AUTHOR_EMAIL: waldermort@gmail.com
-    - COMMIT_AUTHOR_USERNAME: Travis CI
+# env:
+#   global:
+#     - COMMIT_AUTHOR_EMAIL: waldermort@gmail.com
+#     - COMMIT_AUTHOR_USERNAME: Travis CI
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -15,6 +15,7 @@ before_install:
   - openssl aes-256-cbc -K $encrypted_200beba27379_key -iv $encrypted_200beba27379_iv -in .travis/secrets.tar.enc -out .travis/secrets.tar -d
 
 after_success:
+  - ./bin/deploy.sh
   - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then composer install --no-dev ; fi
   - if [[ $EXECUTE_DEPLOYMENT == 'true' && $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]; then ./bin/deploy.sh ; fi
 
@@ -27,8 +28,7 @@ matrix:
   fast_finish: true
   include:
     - php: 7.1.3
-      env:
-      - EXECUTE_DEPLOYMENT=true
+      env: EXECUTE_DEPLOYMENT=true
 
 install:
   - travis_retry composer install --no-interaction
