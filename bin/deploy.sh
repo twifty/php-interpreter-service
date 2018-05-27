@@ -40,17 +40,20 @@ mv dist/php-interpreter.phar dist/php-interpreter.phar.tmp
 # Checkout gh-pages and add PHAR file and version:
 git checkout gh-pages
 mv dist/php-interpreter.phar.tmp dist/php-interpreter.phar
-# sha1sum dist/php-interpreter.phar > dist/php-interpreter.phar.version
-git add dist/php-interpreter.phar dist/php-interpreter.phar.version
-# version=`cat dist/php-interpreter.phar.version | cut -c1-8`
+
+if git diff --quiet; then
+    echo "No changes to the output on this push; exiting."
+    exit 0
+fi
+
+md5sum dist/php-interpreter.phar > dist/php-interpreter.phar.md5
+git add dist/php-interpreter.phar dist/php-interpreter.phar.version dist/php-interpreter.phar.md5
 
 version=`cat dist/php-interpreter.phar.version`
 a=( ${version//./ } )
 ((a[2]++))
 version="${a[0]}.${a[1]}.${a[2]}"
 echo "$version" > dist/php-interpreter.phar.version
-
-rm box.phar
 
 # Commit and push:
 git commit -am "Rebuilt phar ${version}"
