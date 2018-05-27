@@ -44,7 +44,7 @@ oldHash=`md5sum dist/php-interpreter.phar`
 mv dist/php-interpreter.phar.tmp dist/php-interpreter.phar
 newHash='md5sum dist/php-interpreter.phar'
 
-if [ "x$oldHash" != "x$newHash"]; then
+if [ "x$oldHash" != "x$newHash" ]; then
     echo "No changes to the output on this push; exiting."
     # exit 0
 fi
