@@ -40,19 +40,11 @@ mv dist/php-interpreter.phar dist/php-interpreter.phar.tmp
 # Checkout gh-pages and add PHAR file and version:
 git checkout gh-pages
 
-oldHash=($(md5sum dist/php-interpreter.phar))
 mv dist/php-interpreter.phar.tmp dist/php-interpreter.phar
-newHash=($(md5sum dist/php-interpreter.phar))
 
-echo "old: $oldHash"
-echo "new: $newHash"
+hash=($(md5sum dist/php-interpreter.phar))
 
-if [ "x$oldHash" = "x$newHash" ]; then
-    echo "No changes to the output on this push; exiting."
-    # exit 0
-fi
-
-echo "$newhash" > dist/php-interpreter.phar.md5
+echo "$hash" > dist/php-interpreter.phar.md5
 git add dist/php-interpreter.phar dist/php-interpreter.phar.version dist/php-interpreter.phar.md5
 
 version=`cat dist/php-interpreter.phar.version`
