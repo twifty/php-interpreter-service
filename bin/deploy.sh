@@ -31,21 +31,23 @@ git fetch deploy
 
 # Build the phar, will output into /dist directory
 mkdir dist
-./box.phar build
+./box.phar build -vvv
 
 # Without the following step, we cannot checkout the gh-pages branch due to
 # file conflicts:
 mv dist/php-interpreter.phar dist/php-interpreter.phar.tmp
+mv dist/php-interpreter.phar.pubkey dist/php-interpreter.phar.pubkey.tmp
 
 # Checkout gh-pages and add PHAR file and version:
 git checkout gh-pages
 
 mv dist/php-interpreter.phar.tmp dist/php-interpreter.phar
+mv dist/php-interpreter.phar.pubkey.tmp dist/php-interpreter.phar.pubkey
 
 hash=($(md5sum dist/php-interpreter.phar))
 
 echo "$hash" > dist/php-interpreter.phar.md5
-git add dist/php-interpreter.phar dist/php-interpreter.phar.version dist/php-interpreter.phar.md5
+git add dist/php-interpreter.phar dist/php-interpreter.phar.pubkey dist/php-interpreter.phar.version dist/php-interpreter.phar.md5
 
 version=`cat dist/php-interpreter.phar.version`
 a=( ${version//./ } )
